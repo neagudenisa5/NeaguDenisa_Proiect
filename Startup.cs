@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NeaguDenisa_Proiect.Data;
+using NeaguDenisa_Proiect.Hubs;
 
 namespace NeaguDenisa_Proiect
 {
@@ -28,6 +29,7 @@ namespace NeaguDenisa_Proiect
             services.AddControllersWithViews();
             services.AddDbContext<SpitalContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,6 +50,7 @@ namespace NeaguDenisa_Proiect
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -55,6 +58,8 @@ namespace NeaguDenisa_Proiect
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapHub<ChatHub>("/chathub");
+                endpoints.MapRazorPages();
             });
         }
     }
