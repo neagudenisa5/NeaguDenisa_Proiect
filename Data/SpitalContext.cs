@@ -15,12 +15,18 @@ namespace NeaguDenisa_Proiect.Data
         public DbSet<Pacient> Pacienti { get; set; }
         public DbSet<Programare> Programari { get; set; }
         public DbSet<Medic> Medici { get; set; }
+        public DbSet<Spital> Spitale { get; set; }
+        public DbSet<SpitalMedic> SpitalMedici { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Pacient>().ToTable("Pacient");
             modelBuilder.Entity<Programare>().ToTable("Programare");
             modelBuilder.Entity<Medic>().ToTable("Medic");
+            modelBuilder.Entity<Spital>().ToTable("Spital");
+            modelBuilder.Entity<SpitalMedic>().ToTable("SpitalMedic");
+            modelBuilder.Entity<SpitalMedic>()
+                        .HasKey(c => new { c.MedicID, c.SpitalID });
         }
     }
 

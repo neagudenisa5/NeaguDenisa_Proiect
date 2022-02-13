@@ -1,0 +1,108 @@
+﻿@model NeaguDenisa_Proiect.Models.SpitalViewModels.SpitalIndexData
+@{
+    ViewData["Title"] = "Spitale";
+}
+<h2>Spitale</h2>
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nume Spital</th>
+            <th>Adresa</th>
+            <th>Medici</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Spitale)
+        {
+            string selectedRow = "";
+            if (item.ID == (int?)ViewData["SpitalID"])
+            {
+                selectedRow = "success";
+            }
+            <tr class="@selectedRow">
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumeSpital)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Adresa)
+                </td>
+
+                <td>
+                    @{
+                        foreach (var medic in item.SpitalMedici)
+                        {
+                            @medic.Medic.ID @: @medic.Medic.Nume <br />
+                        }
+                    }
+                </td>
+                <td>
+                    <a asp-action="Index" asp-route-id="@item.ID">Select</a> |
+                    <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@if (Model.Medici != null)
+{
+    <h3>Medici din spitalul selectat</h3>
+    <table class="table">
+        <tr>
+            <th></th>
+            <th>Nume</th>
+            <th>Sef</th>
+            <th>Salariu</th>
+        </tr>
+        @foreach (var item in Model.Medici)
+        {
+            string selectedRow = "";
+            if (item.ID == (int?)ViewData["BookID"])
+            {
+                selectedRow = "success";
+            }
+            <tr class="@selectedRow">
+                <td>
+                    @Html.ActionLink("Select", "Index", new { medicID = item.ID })
+                </td>
+                <td>
+                    @item.Nume
+                </td>
+                <td>
+                    @item.Sef
+                </td>
+                <td>
+                    @item.Salariu
+                </td>
+            </tr>
+        }
+    </table>
+}
+@if (Model.Programari != null)
+{
+    <h3>
+        Pacienti
+    </h3>
+    <table class="table">
+        <tr>
+            <th>Nume</th>
+            <th>Data programarii</th>
+        </tr>
+        @foreach (var item in Model.Programari)
+        {
+            <tr>
+                <td>
+                    @item.Pacient.Nume
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DataProgramarii)
+                </td>
+            </tr>
+        }
+    </table>
+}

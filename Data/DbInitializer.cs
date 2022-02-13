@@ -48,16 +48,55 @@ namespace NeaguDenisa_Proiect.Data
 
             var programari = new Programare[]
              {
-             new Programare{MedicID=1,PacientID=10},
-             new Programare{MedicID=3,PacientID=20},
-             new Programare{MedicID=2,PacientID=60},
-             new Programare{MedicID=1,PacientID=50},
-             new Programare{MedicID=6,PacientID=40},
-             new Programare{MedicID=5,PacientID=30},
+             new Programare{MedicID=1,PacientID=10,DataProgramarii=DateTime.Parse("2022-08-03")},
+             new Programare{MedicID=3,PacientID=20,DataProgramarii=DateTime.Parse("2022-08-03")},
+             new Programare{MedicID=2,PacientID=60,DataProgramarii=DateTime.Parse("2022-05-04")},
+             new Programare{MedicID=1,PacientID=50,DataProgramarii=DateTime.Parse("2022-03-04")},
+             new Programare{MedicID=6,PacientID=40,DataProgramarii=DateTime.Parse("2022-03-04")},
+             new Programare{MedicID=5,PacientID=30,DataProgramarii=DateTime.Parse("2022-03-10")},
+             new Programare{MedicID=4,PacientID=10,DataProgramarii=DateTime.Parse("2022-08-03")},
              };
             foreach (Programare e in programari)
             {
                 context.Programari.Add(e);
+            }
+            context.SaveChanges();
+
+            var spitale = new Spital[]
+            {
+                new Spital{NumeSpital="Spitalul Clinic Județean de Urgență Cluj",Adresa="Str. Clinicilor 3-5, Cluj-Napoca"},
+                new Spital{NumeSpital="Spitalul Clinic Municipal Cluj",Adresa="Str. Tăbăcarilor 11, Cluj-Napoca"},
+                new Spital{NumeSpital="Spitalul Universitar C.F. Cluj",Adresa="Str. Republicii 16-20, Cluj-Napoca"},
+                new Spital{NumeSpital="Spitalul Clinic de Recuperare Cluj",Adresa="Str. Viilor 46-50, Cluj-Napoca"},
+                new Spital{NumeSpital="Spitalul Transilvania",Adresa="Str. René Descartes 7, Cluj-Napoca"},
+                new Spital{NumeSpital="Spitalul Clinic de Boli Infecțioase Cluj",Adresa="Str. Iuliu Moldovan 23, Cluj-Napoca"},
+            };
+            foreach (Spital p in spitale)
+            {
+                context.Spitale.Add(p);
+            }
+            context.SaveChanges();
+
+            var spitalmedici = new SpitalMedic[]
+            {
+                new SpitalMedic { MedicID = medici.Single(c => c.Nume == "Caciula Dorin" ).ID,SpitalID = spitale.Single(i => i.NumeSpital =="Spitalul Clinic Județean de Urgență Cluj").ID},
+                new SpitalMedic { MedicID = medici.Single(c => c.Nume == "Caciula Dorin" ).ID,SpitalID = spitale.Single(i => i.NumeSpital =="Spitalul Transilvania").ID},
+                new SpitalMedic { MedicID = medici.Single(c => c.Nume == "Gavris Monica" ).ID,SpitalID = spitale.Single(i => i.NumeSpital =="Spitalul Transilvania").ID},
+                new SpitalMedic { MedicID = medici.Single(c => c.Nume == "Popa Diana" ).ID,SpitalID = spitale.Single(i => i.NumeSpital =="Spitalul Clinic Județean de Urgență Cluj").ID},
+                new SpitalMedic { MedicID = medici.Single(c => c.Nume == "Popa Diana" ).ID,SpitalID = spitale.Single(i => i.NumeSpital =="Spitalul Clinic de Boli Infecțioase Cluj").ID},
+                new SpitalMedic { MedicID = medici.Single(c => c.Nume == "Nistor Ramona" ).ID,SpitalID = spitale.Single(i => i.NumeSpital =="Spitalul Clinic Municipal Cluj").ID},
+                new SpitalMedic { MedicID = medici.Single(c => c.Nume == "Nistor Ramona" ).ID,SpitalID = spitale.Single(i => i.NumeSpital =="Spitalul Clinic de Recuperare Cluj").ID},
+                new SpitalMedic { MedicID = medici.Single(c => c.Nume == "Coman Laura" ).ID,SpitalID = spitale.Single(i => i.NumeSpital =="Spitalul Universitar C.F. Cluj").ID},
+                new SpitalMedic { MedicID = medici.Single(c => c.Nume == "Coman Laura" ).ID,SpitalID = spitale.Single(i => i.NumeSpital =="Spitalul Clinic Județean de Urgență Cluj").ID},
+                new SpitalMedic { MedicID = medici.Single(c => c.Nume == "Coman Laura" ).ID,SpitalID = spitale.Single(i => i.NumeSpital =="Spitalul Clinic Municipal Cluj").ID},
+                new SpitalMedic { MedicID = medici.Single(c => c.Nume == "Diaconu Raluca" ).ID,SpitalID = spitale.Single(i => i.NumeSpital =="Spitalul Clinic de Boli Infecțioase Cluj").ID},
+                new SpitalMedic { MedicID = medici.Single(c => c.Nume == "Diaconu Raluca" ).ID,SpitalID = spitale.Single(i => i.NumeSpital =="Spitalul Clinic Municipal Cluj").ID},
+                new SpitalMedic { MedicID = medici.Single(c => c.Nume == "Diaconu Raluca" ).ID,SpitalID = spitale.Single(i => i.NumeSpital =="Spitalul Universitar C.F. Cluj").ID},
+
+            };
+            foreach (SpitalMedic pb in spitalmedici)
+            {
+                context.SpitalMedici.Add(pb);
             }
             context.SaveChanges();
         }

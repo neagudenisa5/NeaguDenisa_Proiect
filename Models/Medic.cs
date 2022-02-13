@@ -12,5 +12,9 @@ namespace NeaguDenisa_Proiect.Models
         public string Sef { get; set; }
         public decimal Salariu { get; set; }
         public ICollection<Programare> Programari{ get; set; }
+
+        //un medic poate lucra la mai multe spitale
+        public ICollection<SpitalMedic> SpitalMedici { get; set; }
+
     }
 }

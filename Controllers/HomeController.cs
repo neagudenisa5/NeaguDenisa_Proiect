@@ -6,17 +6,20 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using NeaguDenisa_Proiect.Models;
+using NeaguDenisa_Proiect.Data;
+using Microsoft.EntityFrameworkCore;
+using NeaguDenisa_Proiect.Models.SpitalViewModels;
 
 namespace NeaguDenisa_Proiect.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly SpitalContext _context;
+        public HomeController(SpitalContext context)
         {
-            _logger = logger;
+            _context = context;
         }
+        
 
         public IActionResult Index()
         {
@@ -32,6 +35,19 @@ namespace NeaguDenisa_Proiect.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+        //calculeaza numarul de programari efectuate pentru fiecare data calendaristica
+        public async Task<ActionResult> Statistics()
+        {
+            IQueryable<ProgramariGroup> data =
+            from order in _context.Programari
+            group order by order.DataProgramarii into dateGroup
+            select new ProgramariGroup()
+            {
+                DataProgramarii = dateGroup.Key,
+                ProgramariCount = dateGroup.Count()
+            };
+            return View(await data.AsNoTracking().ToListAsync());
         }
     }
 }

@@ -1,0 +1,26 @@
+﻿@model IEnumerable<NeaguDenisa_Proiect.Models.SpitalViewModels.ProgramariGroup>
+@{
+    ViewData["Title"] = "Statistici programari";
+}
+<h2>Programari Statistici</h2>
+<table>
+    <tr>
+        <th>
+            Data
+        </th>
+        <th>
+            Programari
+        </th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataProgramarii)
+            </td>
+            <td>
+                @item.ProgramariCount
+            </td>
+        </tr>
+    }
+</table>
