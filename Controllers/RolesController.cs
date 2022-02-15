@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace NeaguDenisa_Proiect.Controllers
 {
     //autorizare pentru manageri, doar managerii pot vedea rolurile 
+    [Authorize(Policy = "OnlyManager")]
     public class RolesController : Controller
     {
         //rol manager

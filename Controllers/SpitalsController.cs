@@ -12,7 +12,7 @@ using NeaguDenisa_Proiect.Models.SpitalViewModels;
 
 namespace NeaguDenisa_Proiect.Controllers
 {
-    
+    [Authorize(Policy = "OnlyPacient")]
     public class SpitalsController : Controller
     {
         private readonly SpitalContext _context;

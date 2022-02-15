@@ -11,7 +11,7 @@ using NeaguDenisa_Proiect.Models;
 
 namespace NeaguDenisa_Proiect.Controllers
 {
-    [Authorize(Policy = "OnlyPacient")]
+    
     public class MedicsController : Controller
     {
         private readonly SpitalContext _context;
