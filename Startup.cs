@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,7 +31,45 @@ namespace NeaguDenisa_Proiect
             services.AddDbContext<SpitalContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddSignalR();
+            services.AddRazorPages();
+
+            //blocare utilizator dupa autentificare gresita de 2 ori
+            services.Configure<IdentityOptions>(options => {
+
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
+                options.Lockout.MaxFailedAccessAttempts = 2;
+                options.Lockout.AllowedForNewUsers = true;
+            });
+            //autorizare pentru manageri
+            services.AddAuthorization(opts => {
+                opts.AddPolicy("OnlyManager", policy => {
+                    policy.RequireRole("Manager");
+                });
+            });
+            //autorizare angajat
+            services.AddAuthorization(opts => {
+                opts.AddPolicy("OnlyPacient", policy => {
+                    policy.RequireRole("Pacient");
+                });
+            });
+            //acces restrictionat, necesita autentificare
+            services.ConfigureApplicationCookie(opts =>
+            {
+                opts.AccessDeniedPath = "/Identity/Account/AccessDenied";
+
+            });
+            //lungime minima parola 7 caractere
+            services.Configure<IdentityOptions>(options => {
+
+                options.Password.RequireDigit = true;
+                options.Password.RequiredLength = 7;
+                options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireUppercase = true;
+                options.Lockout.AllowedForNewUsers = true;
+            });
         }
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

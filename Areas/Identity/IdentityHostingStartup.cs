@@ -19,8 +19,11 @@ namespace NeaguDenisa_Proiect.Areas.Identity
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("IdentityContextConnection")));
 
-                services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                    .AddEntityFrameworkStores<IdentityContext>();
+                //necesitatea autentificarii 
+                services.AddDefaultIdentity<IdentityUser>(options =>
+                    options.SignIn.RequireConfirmedAccount = true)
+                .AddRoles<IdentityRole>()
+                   .AddEntityFrameworkStores<IdentityContext>();
             });
         }
     }
